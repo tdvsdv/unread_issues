@@ -1,0 +1,36 @@
+tr.unread td.subject a
+	{
+	display: block;	
+	background-image: url(../images/redled.png);
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position-y: 1px;
+	}
+
+tr.updated td.subject a
+	{
+	display: block;	
+	background-image: url(../images/yellowled.png);
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position-y: 1px;
+	}
+#top-menu span.unread
+	{
+	display: block;	
+	background-image: url(../images/redled.png);
+	background-repeat: no-repeat;
+	padding-left: 14px;
+	background-position-y: -1px;	
+	}
+#top-menu span.updated
+	{
+	display: block;	
+	background-image: url(../images/yellowled.png);
+	background-repeat: no-repeat;
+	padding-left: 14px;
+	background-position-y: -1px;	
+	}
+#top-menu span
+	{float: left;}
+		
