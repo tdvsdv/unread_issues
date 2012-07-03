@@ -1,0 +1,15 @@
+<%- defaults = Redmine::Plugin::registered_plugins[:advanced_roadmap].settings[:default] -%>
+<% frequency=@settings['frequency'].to_i || defaults['frequency'].to_i%>
+<% decay=@settings['decay'].to_i || defaults['decay'].to_i%>
+
+<table cellspacing="15">
+<tr>
+<td><%=l(:label_unread_issues_frequency)%>: </td>
+<td><%=text_field_tag 'settings[frequency]', frequency %></td>
+</tr>
+<tr>
+<td><%=l(:label_unread_issues_decay)%>: </td>
+<td><%=text_field_tag 'settings[decay]', decay %></td>
+</tr>
+</table>
+
