@@ -1,3 +1,5 @@
 # English strings go here for Rails i18n
 ru:
   my_issues_on_my_page: "Мои задания"
+  label_unread_issues_frequency: "Частота запросов об изменившихся задачах (с.)"
+  label_unread_issues_decay: "Коэффициент умножения частоты запросов"

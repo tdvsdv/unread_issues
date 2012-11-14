@@ -1,36 +1,39 @@
 tr.unread td.subject a
 	{
-	display: block;	
-	background-image: url(../images/redled.png);
+	background-image: url(../images/circle_green.png);
 	background-repeat: no-repeat;
-	padding-left: 17px;
-	background-position-y: 1px;
+	padding: 0px 0px 0px 17px;
+	background-position-y: 0px
 	}
 
 tr.updated td.subject a
 	{
-	display: block;	
-	background-image: url(../images/yellowled.png);
+	background-image: url(../images/circle_blue.png);
 	background-repeat: no-repeat;
-	padding-left: 17px;
-	background-position-y: 1px;
+	padding: 0px 0px 0px 17px;
+	background-position-y: 0px
 	}
 #top-menu span.unread
 	{
 	display: block;	
-	background-image: url(../images/redled.png);
+	background-image: url(../images/circle_green.png);
 	background-repeat: no-repeat;
-	padding-left: 14px;
-	background-position-y: -1px;	
+	padding-left: 16px;
+	background-position: 0px -2px;	
 	}
 #top-menu span.updated
 	{
 	display: block;	
-	background-image: url(../images/yellowled.png);
+	background-image: url(../images/circle_blue.png);
 	background-repeat: no-repeat;
-	padding-left: 14px;
-	background-position-y: -1px;	
+	padding-left: 16px;
+	background-position: 0px -2px;
 	}
 #top-menu span
 	{float: left;}
 		
+
+.hidden
+	{
+	display: none;
+	}
