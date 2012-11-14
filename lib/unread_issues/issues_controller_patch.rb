@@ -15,6 +15,7 @@ module UnreadIssues
 	end
 	
 	module InstanceMethods
+
 		def make_issue_read
 			issue_read=IssueRead.find_or_create_by_user_id_and_issue_id(User.current.id, @issue.id)
 			issue_read.user_id=User.current.id

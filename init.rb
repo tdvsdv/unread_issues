@@ -6,6 +6,12 @@ Redmine::Plugin.register :unread_issues do
   	url 'http://pitin.su'
   	author_url 'http://pitin.su'
 
+	settings 	:partial => 'settings/unread_issues_settings',
+            	:default => {
+              	"frequency" => 600, 
+			  	      "decay" => 2
+           		}  
+
 	delete_menu_item :top_menu, :my_page
 	menu :top_menu, :my_page, { :controller => 'my', :action => 'page' }, :caption => Proc.new { User.current.my_page_caption },  :if => Proc.new { User.current.logged? }, :first => true
 end
@@ -13,6 +19,7 @@ end
 Rails.application.config.to_prepare do
   Issue.send(:include, UnreadIssues::IssuePatch)
   User.send(:include, UnreadIssues::UserPatch)
+  #UsersController.send(:include, UnreadIssues::UsersControllerPatch)
   IssuesController.send(:include, UnreadIssues::IssuesControllerPatch)
 end
 
