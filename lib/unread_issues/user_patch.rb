@@ -27,9 +27,9 @@ module UnreadIssues
 		end
 
 		def my_page_counts
-			s = "<span>&nbsp;(#{count_opened_assigned_issues}/</span>"
-			s << "<span class='#{'unread' if count_unread_issues>0}'> #{count_unread_issues}/</span>"
-			s << "<span class='#{'updated' if count_updated_issues>0}'> #{count_updated_issues})</span>"
+			s = "<span class=\"count\">#{count_opened_assigned_issues}</span>"
+			s << "<span class=\"count #{'unread' if count_unread_issues>0}\"> #{count_unread_issues}</span>"
+			s << "<span class=\"count #{'updated' if count_updated_issues>0}\"> #{count_updated_issues}</span>"
 			s.html_safe				
 		end
 

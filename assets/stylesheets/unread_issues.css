@@ -13,21 +13,13 @@ tr.updated td.subject a
 	padding: 0px 0px 0px 17px;
 	background-position-y: 0px
 	}
-#top-menu span.unread
+#top-menu a span.unread
 	{
-	display: block;	
-	background-image: url(../images/circle_green.png);
-	background-repeat: no-repeat;
-	padding-left: 16px;
-	background-position: 0px -2px;	
+	background-color: #c3e26b
 	}
-#top-menu span.updated
+#top-menu  a span.updated
 	{
-	display: block;	
-	background-image: url(../images/circle_blue.png);
-	background-repeat: no-repeat;
-	padding-left: 16px;
-	background-position: 0px -2px;
+	background-color: #76a8d7
 	}
 #top-menu span
 	{float: left;}
