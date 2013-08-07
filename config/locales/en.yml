@@ -1,3 +1,5 @@
 # English strings go here for Rails i18n
 en:
-  my_label: "My label"
+  my_issues_on_my_page: "My issues"
+  label_unread_issues_frequency: "The frequency of requests for changed tasks (s.)"
+  label_unread_issues_decay: "Frequency multiplier queries ratio"
