@@ -1,5 +1,5 @@
 # German strings go here for Rails i18n
 de:
-  my_issues_on_my_page: "Meine Tickets"
-  label_unread_issues_frequency: "Vorkommen ungelesener Tickets"
-  label_unread_issues_decay: "Das Verhältnis von un-/ge- lesenen Tickets"
+  my_issues_on_my_page: "Mein Bereich"
+  label_unread_issues_frequency: "ungelesene Tickets"
+  label_unread_issues_decay: "un-/gelesene Tickets"
