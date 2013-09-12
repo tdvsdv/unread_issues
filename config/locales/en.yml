@@ -3,3 +3,4 @@ en:
   my_issues_on_my_page: "My issues"
   label_unread_issues_frequency: "The frequency of requests for changed tasks (s.)"
   label_unread_issues_decay: "Frequency multiplier queries ratio"
+  plugin_test_unread_issues: "unread_issues"
