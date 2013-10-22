@@ -2,31 +2,32 @@
 
 #### Plugin for Redmine
 
-Плагин реализует удобную функциональность контроля за изменениями в заданиях.
+The plugin implements a convenient functionality of monitoring changes in issues.
 
-В списке заданий появляются цветные индикаторы, которые показывают текущее состояние задания.
-Если задание новое и вы еще еге не просматривали, то рядом с названием задания появляется зеленый кружок.
-Если в задании были какие-то изменения с вашего последнего просмотра, то рядом с названием задания появляется синий кружок.
+In the list of issues appears colored indicators that show the current status of the issue.
+If the issue is new and you have not viewed it yet, a green circle will lights before the title of the issue.
+If the issue had any changes since your last view, a blue circle will lights before the title of the issue.
 
-Также плагин реализует счетчик в главном меню рядом с пунктом "Мои задания".
-Счетчик состоит из 3 значений:
-* 1) Показывает количество заданий, назначенных на вас. 
-* 2) Показывает количество новых заданий, назначенных на ваc, которые вы еще не просматривали.
-* 3) Показывает количество заданий, назначенных на вас, в которых были изменения с вашего последнего просмотра задания.
+Plugin removes useless menu-item "Home" in main menu and renames menu-item "My page" to "My issues".
+Also plugin implements the counter in the main menu next to menu-item "My issues".
+The counter consists of three values:
+* 1) Shows the number of issues, assigned to you.
+* 2) Shows the number of new issues, assigned to the you, that you have not viewed yet.
+* 3) Shows the number of issues, assigned to you, which had changes since last view.
 
 ![Interface](https://github.com/tdvsdv/unread_issues/raw/master/screenshots/interface.png "Interface")
 
 #### Installation
-Для установки необходимо перейти в папку "plugins" каталога в который установлен Redmine.
-Склонировать плагин в данную папку.
+To install plugin, go to the folder "plugins" in root directory of Redmine.
+Clone plugin in that folder.
 
 		git clone https://github.com/tdvsdv/unread_issues.git
 
-Выполнить миграции плагина (убедитесь, что выполняя команду, находитесь в корневой директории установки «Redmine»):
+Perform plugin migrations (make sure performing command in the root installation folder of «Redmine»):
 
 		rake redmine:plugins:migrate NAME=unread_issues
 
-Перезапустить веб-сервер Redmine.
+Restart your web-server.
 
 #### Supported Redmine, Ruby and Rails versions.
 
