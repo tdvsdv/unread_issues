@@ -20,7 +20,7 @@ module UnreadIssues
 	module InstanceMethods
 		def my_page_caption
 			s="<span class='my_page'>#{l(:my_issues_on_my_page)}</span> "
-			s <<"<span class='hidden'><span id='unread_issues_frequency'>#{Setting.plugin_unread_issues['frequency'].to_s}</span><span id='unread_issues_decay'>#{Setting.plugin_unread_issues['decay'].to_s}</span></span><span id='my_page_issues_count'>" 
+			s <<"<span id='my_page_issues_count'>" 
 			s << my_page_counts
 			s <<"</span>"
 			s.html_safe
