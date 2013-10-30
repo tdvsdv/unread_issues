@@ -46,7 +46,7 @@ Plugin aims to support and is tested under the following Rails implementations:
 
 #### Copyright
 Copyright (c) 2011-2013 Vladimir Pitin, Danil Kukhlevskiy.
-[skin]: https://github.com/tdvsdv/redmine_alex_skin.git
+[skin]: https://github.com/tdvsdv/redmine_alex_skin
 For better appearance we recommend to use this plugin with Redmine skin of our team - [Redmine Alex Skin][skin].
 
 Another plugins of our team you can see on site http://rmplus.pro
