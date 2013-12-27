@@ -14,7 +14,6 @@ end
 Rails.application.config.to_prepare do
   Issue.send(:include, UnreadIssues::IssuePatch)
   User.send(:include, UnreadIssues::UserPatch)
-  #UsersController.send(:include, UnreadIssues::UsersControllerPatch)
   IssuesController.send(:include, UnreadIssues::IssuesControllerPatch)
 end
 
