@@ -8,13 +8,13 @@ module UnreadIssues
       has_many :issue_reads, :dependent=>:delete_all
       has_many :assigned_issues, :class_name =>'Issue' , :foreign_key => 'assigned_to_id'
     end
-    
+
     end
-  
+
   module ClassMethods
-  
+
   end
-  
+
   module InstanceMethods
     def my_page_caption
       s = "<span class='my_page'>#{l(:my_issues_on_my_page)}</span> "
@@ -24,8 +24,8 @@ module UnreadIssues
 
     def my_page_counts
       s = "<span class=\"count\">#{count_opened_assigned_issues}</span>"
-      s << "<span class=\"count #{'unread' if count_unread_issues>0}\"> #{count_unread_issues}</span>"
-      s << "<span class=\"count #{'updated' if count_updated_issues>0}\"> #{count_updated_issues}</span>"
+      s << "<span class=\"count #{'unread' if count_unread_issues>0}\">#{count_unread_issues}</span>"
+      s << "<span class=\"count #{'updated' if count_updated_issues>0}\">#{count_updated_issues}</span>"
       s.html_safe
     end
 
@@ -39,7 +39,7 @@ module UnreadIssues
 
     def count_opened_assigned_read_issues
       # @count_opened_assigned_read_issues ||= IssueRead.count_by_sql("SELECT COUNT(*) FROM #{IssueStatus.table_name}, #{Issue.table_name}, #{IssueRead.table_name}
-      #                               WHERE 
+      #                               WHERE
       #                               #{IssueStatus.table_name}.is_closed!=1
       #                               AND #{IssueStatus.table_name}.id=#{Issue.table_name}.status_id
       #                               AND #{Issue.table_name}.assigned_to_id=#{id}
@@ -56,6 +56,6 @@ module UnreadIssues
       @count_updated_issues ||= assigned_issues.count(:include => [:issue_reads, :status], :conditions => ["#{IssueRead.table_name}.read_date < #{Issue.table_name}.updated_on AND #{IssueRead.table_name}.user_id=? AND #{IssueStatus.table_name}.is_closed = ?", id, false])
     end
   end
-  
+
   end
 end
