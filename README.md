@@ -25,7 +25,7 @@ Clone plugin in that folder.
 
 Perform plugin migrations (make sure performing command in the root installation folder of «Redmine»):
 
-		rake redmine:plugins:migrate NAME=unread_issues
+		rake redmine:plugins:migrate NAME=unread_issues RAILS_ENV=production
 
 Restart your web-server.
 
