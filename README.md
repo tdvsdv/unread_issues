@@ -23,6 +23,10 @@ Clone plugin in that folder.
 
 		git clone https://github.com/tdvsdv/unread_issues.git
 
+If you want to support ajax loading of counters, install ajax_counters plugin
+
+    git clone https://github.com/dkuk/ajax_counters.git
+
 Perform plugin migrations (make sure performing command in the root installation folder of «Redmine»):
 
 		rake redmine:plugins:migrate NAME=unread_issues RAILS_ENV=production
