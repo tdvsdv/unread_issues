@@ -44,29 +44,19 @@ class IssueReadsController < ApplicationController
     counts = nil
     case params[:type]
       when 'changes_in_issues'
-        counts = Issue.joins(:status, :issue_reads)
-                      .where("#{IssueRead.table_name}.read_date < #{Issue.table_name}.updated_on
-                          and #{IssueRead.table_name}.user_id = :user_id
-                          and #{Issue.table_name}.assigned_to_id = :user_id
-                          and #{IssueStatus.table_name}.is_closed = :false_flag
-                             ", user_id: User.current.id, false_flag: false)
-                      .select("SUM(case when #{IssueRead.table_name}.read_date <= '#{old}' then 1 else 0 end) as old,
-                               SUM(case when #{IssueRead.table_name}.read_date > '#{old}' and #{IssueRead.table_name}.read_date <= '#{week}' then 1 else 0 end) as soon,
-                               SUM(case when #{IssueRead.table_name}.read_date > '#{week}' and #{IssueRead.table_name}.read_date <= '#{month}' then 1 else 0 end) as in_this_month,
-                               SUM(case when #{IssueRead.table_name}.read_date > '#{month}' then 1 else 0 end) as in_next_month
-                              ").first
+        counts = User.current.ui_updated_issues
+                             .select("SUM(case when #{IssueRead.table_name}.read_date <= '#{old}' then 1 else 0 end) as old,
+                                      SUM(case when #{IssueRead.table_name}.read_date > '#{old}' and #{IssueRead.table_name}.read_date <= '#{week}' then 1 else 0 end) as soon,
+                                      SUM(case when #{IssueRead.table_name}.read_date > '#{week}' and #{IssueRead.table_name}.read_date <= '#{month}' then 1 else 0 end) as in_this_month,
+                                      SUM(case when #{IssueRead.table_name}.read_date > '#{month}' then 1 else 0 end) as in_next_month
+                                     ").first
       when 'new_issues'
-        counts = Issue.joins(:status)
-                      .joins("LEFT JOIN #{IssueRead.table_name} ir on ir.issue_id = #{Issue.table_name}.id and ir.user_id = #{User.current.id}")
-                      .where("ir.read_date is null
-                          and #{Issue.table_name}.assigned_to_id = :user_id
-                          and #{IssueStatus.table_name}.is_closed = :false_flag
-                             ", user_id: User.current.id, false_flag: false)
-                      .select("SUM(case when #{Issue.table_name}.created_on <= '#{old}' then 1 else 0 end) as old,
-                               SUM(case when #{Issue.table_name}.created_on > '#{old}' and #{Issue.table_name}.created_on <= '#{week}' then 1 else 0 end) as soon,
-                               SUM(case when #{Issue.table_name}.created_on > '#{week}' and #{Issue.table_name}.created_on <= '#{month}' then 1 else 0 end) as in_this_month,
-                               SUM(case when #{Issue.table_name}.created_on > '#{month}' then 1 else 0 end) as in_next_month
-                              ").first
+        counts = User.current.ui_unread_issues
+                             .select("SUM(case when #{Issue.table_name}.created_on <= '#{old}' then 1 else 0 end) as old,
+                                      SUM(case when #{Issue.table_name}.created_on > '#{old}' and #{Issue.table_name}.created_on <= '#{week}' then 1 else 0 end) as soon,
+                                      SUM(case when #{Issue.table_name}.created_on > '#{week}' and #{Issue.table_name}.created_on <= '#{month}' then 1 else 0 end) as in_this_month,
+                                      SUM(case when #{Issue.table_name}.created_on > '#{month}' then 1 else 0 end) as in_next_month
+                                     ").first
     end
 
     data[:affects] = today.strftime('%Y-%m-%d')
