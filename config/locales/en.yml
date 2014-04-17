@@ -5,3 +5,4 @@ en:
     magic_my_page:
       label_changes_in_issues: 'Changes in issues'
       label_new_issues: 'New issues'
+      label_view: 'Look through'

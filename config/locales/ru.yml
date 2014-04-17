@@ -5,3 +5,4 @@ ru:
     magic_my_page:
       label_changes_in_issues: 'Изменения в задачах'
       label_new_issues: 'Новые задачи'
+      label_view: 'Просмотреть'
