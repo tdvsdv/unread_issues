@@ -1,3 +1,7 @@
 # German strings go here for Rails i18n
 de:
   my_issues_on_my_page: "Mein Bereich"
+  unread_issues:
+    magic_my_page:
+      label_changes_in_issues: 'Changes in issues'
+      label_new_issues: 'New issues'

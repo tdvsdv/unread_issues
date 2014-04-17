@@ -1,0 +1,8 @@
+<%
+  magic_my_page_necessary_actions = @settings['magic_my_page_necessary_actions'] || { }
+%>
+<table width="100%">
+  <% if (Redmine::Plugin.installed?(:magic_my_page)) %>
+    <%= render partial: 'mm_page/necessary_action_settings', locals: { header: l('unread_issues.magic_my_page.label_changes_in_issues'), param: 'changes_in_issues', data: magic_my_page_necessary_actions[:changes_in_issues] || { }, date_type: 1 } %>
+  <% end %>
+</table>
