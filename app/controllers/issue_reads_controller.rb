@@ -23,7 +23,7 @@ class IssueReadsController < ApplicationController
       return
     end
 
-    settings = (Setting.plugin_unread_issues[:magic_my_page_necessary_actions] || { })[params[:type]]
+    settings = ((Setting.plugin_unread_issues || { })[:magic_my_page_necessary_actions] || { })[params[:type]]
     if (settings.nil? || settings == { })
       mmp_render_counters(nil, nil, url_for(only_path: true))
       return
