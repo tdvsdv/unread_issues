@@ -1,5 +1,5 @@
 <%
-  magic_my_page_necessary_actions = @settings['magic_my_page_necessary_actions'] || { }
+  magic_my_page_necessary_actions = (@settings || { })['magic_my_page_necessary_actions'] || { }
 %>
 <table width="100%">
   <% if (Redmine::Plugin.installed?(:magic_my_page)) %>
