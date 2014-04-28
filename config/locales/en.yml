@@ -1,3 +1,8 @@
 # English strings go here for Rails i18n
 en:
   my_issues_on_my_page: "My issues"
+  unread_issues:
+    magic_my_page:
+      label_changes_in_issues: 'Changes in issues'
+      label_new_issues: 'New issues'
+      label_view: 'Look through'

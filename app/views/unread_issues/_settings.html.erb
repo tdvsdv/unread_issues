@@ -1,0 +1,7 @@
+<%
+  magic_my_page_necessary_actions = (@settings || { })['magic_my_page_necessary_actions'] || { }
+%>
+<% if (Redmine::Plugin.installed?(:magic_my_page)) %>
+  <%= render partial: 'mm_page/necessary_action_settings', locals: { header: l('unread_issues.magic_my_page.label_changes_in_issues'), param: 'changes_in_issues', data: magic_my_page_necessary_actions[:changes_in_issues] || { }, date_type: 1 } %>
+  <%= render partial: 'mm_page/necessary_action_settings', locals: { header: l('unread_issues.magic_my_page.label_new_issues'), param: 'new_issues', data: magic_my_page_necessary_actions[:new_issues] || { }, date_type: 1 } %>
+<% end %>
