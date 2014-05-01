@@ -33,21 +33,11 @@ class IssueReadsController < ApplicationController
 
     begin
       query = IssueQuery.find(settings[:query_id])
+      query.group_by = ''
     rescue ActiveRecord::RecordNotFound
       mmp_render_counters(nil, nil, url_for(only_path: true))
       return
     end
-    query.group_by = ''
-
-    data = { count: 0, affects: nil }
-    result = [ ]
-
-    today = Date.today
-    days_dec = (settings[:deadline] || { })[:days_inc].to_i.days
-    old = (today - days_dec)
-    week = (today - days_dec + 7.days)
-    month = (today.end_of_month - days_dec)
-    data[:custom_link] = "<a href='#{url_for({ controller: :issues, action: :index, query_id: settings[:query_id] })}'><span>#{l('unread_issues.magic_my_page.label_' + params[:type].to_s)}</span></a>".html_safe
 
     counts = nil
 
@@ -56,39 +46,24 @@ class IssueReadsController < ApplicationController
         counts = { }
         query.issues.each do |it|
           unless (it.user_read.nil?)
-            counts[:old] = counts[:old].to_i + 1 if (it.user_read.read_date < old)
-            counts[:soon] = counts[:soon].to_i + 1 if (it.user_read.read_date > old && it.user_read.read_date <= week)
-            counts[:in_this_month] = counts[:in_this_month].to_i + 1 if (it.user_read.read_date > week && it.user_read.read_date <= month)
-            counts[:in_next_month] = counts[:in_next_month].to_i + 1 if (it.user_read.read_date > month)
+            counts[it.user_read.read_date] ||= 0
+            counts[it.user_read.read_date] += 1
           end
         end
       when 'new_issues'
         counts = { }
         query.issues.each do |it|
-          counts[:old] = counts[:old].to_i + 1 if (it.created_on < old)
-          counts[:soon] = counts[:soon].to_i + 1 if (it.created_on > old && it.created_on <= week)
-          counts[:in_this_month] = counts[:in_this_month].to_i + 1 if (it.created_on > week && it.created_on <= month)
-          counts[:in_next_month] = counts[:in_next_month].to_i + 1 if (it.created_on > month)
+          counts[it.created_on] ||= 0
+          counts[it.created_on] += 1
         end
     end
 
-    data[:affects] = today.strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts[:old].to_i
-    result << data.clone( )
+    if (counts.nil?)
+      mmp_render_counters(nil, nil, url_for(only_path: true))
+      return
+    end
 
-    data[:affects] = (today + 6.day).strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts[:soon].to_i
-    result << data.clone( )
-
-    data[:affects] = (today.end_of_month).strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts[:in_this_month].to_i
-    result << data.clone( )
-
-    data[:affects] = (today.end_of_month + 1.day).strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts[:in_next_month].to_i
-    result << data.clone( )
-
-    mmp_render_counters(result, settings, url_for(only_path: true))
+    mmp_prepare_data_and_render_counter({ plugin: :unread_issues, type: params[:type] }, "<a href='#{url_for({ controller: :issues, action: :index, query_id: settings[:query_id] })}'><span>#{l('unread_issues.magic_my_page.label_' + params[:type].to_s)}</span></a>".html_safe, counts)
   end
 
 end
