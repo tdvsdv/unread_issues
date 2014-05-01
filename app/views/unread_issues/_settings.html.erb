@@ -1,6 +1,14 @@
 <%
   magic_my_page_necessary_actions = (@settings || { })['magic_my_page_necessary_actions'] || { }
-  queries = [['---', nil]] + IssueQuery.order('name').collect { |it| [it.name, it.id] }
+  rm_version = Redmine::VERSION.to_a
+  queries = nil
+  if (rm_version[0] >= 2 && rm_version[1] >= 4)
+    queries = IssueQuery.where("project_id IS NULL AND visibility=?", 2)
+  else
+    queries = IssueQuery.where("project_id IS NULL AND is_public = ?", true)
+  end
+
+  queries = [['---', nil]] + queries.order('name').collect { |it| [it.name, it.id] }
 %>
 <% if (Redmine::Plugin.installed?(:magic_my_page)) %>
   <%= render(layout: 'mm_page/necessary_action_settings', locals: { header: l('unread_issues.magic_my_page.label_changes_in_issues'), param: 'changes_in_issues', data: magic_my_page_necessary_actions[:changes_in_issues] || { }, date_type: 1 }) do %>

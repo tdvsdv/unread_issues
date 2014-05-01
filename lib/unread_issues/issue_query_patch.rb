@@ -70,15 +70,6 @@ module UnreadIssues
         joins << " LEFT JOIN #{IssueRead.table_name} uis_ir ON uis_ir.issue_id = #{Issue.table_name}.id and uis_ir.user_id = #{User.current.id}"
         return joins
       end
-
-      def uis_issues_scope
-        order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
-
-        return Issue.visible.
-                     joins(:status, :project, :user_read).
-                     where(statement).
-                     joins(joins_for_order_statement(order_option.join(',')))
-      end
     end
   end
 end
