@@ -17,6 +17,7 @@ Rails.application.config.to_prepare do
   Issue.send(:include, UnreadIssues::IssuePatch)
   User.send(:include, UnreadIssues::UserPatch)
   IssuesController.send(:include, UnreadIssues::IssuesControllerPatch)
+  IssueQuery.send(:include, UnreadIssues::IssueQueryPatch)
 end
 
 require 'unread_issues/hooks_views'

@@ -31,48 +31,61 @@ class IssueReadsController < ApplicationController
 
     settings = settings.clone( )
 
+    begin
+      query = IssueQuery.find(settings[:query_id])
+    rescue ActiveRecord::RecordNotFound
+      mmp_render_counters(nil, nil, url_for(only_path: true))
+      return
+    end
+    query.group_by = ''
+
     data = { count: 0, affects: nil }
     result = [ ]
 
     today = Date.today
     days_dec = (settings[:deadline] || { })[:days_inc].to_i.days
-    old = (today - days_dec).strftime('%Y-%m-%d')
-    week = (today - days_dec + 7.days).strftime('%Y-%m-%d')
-    month = (today.end_of_month - days_dec).strftime('%Y-%m-%d')
-    data[:custom_link] = "<a href='#{my_page_path}'><span>#{l('unread_issues.magic_my_page.label_view')}</span></a>".html_safe
+    old = (today - days_dec)
+    week = (today - days_dec + 7.days)
+    month = (today.end_of_month - days_dec)
+    data[:custom_link] = "<a href='#{url_for({ controller: :issues, action: :index, query_id: settings[:query_id] })}'><span>#{l('unread_issues.magic_my_page.label_' + params[:type].to_s)}</span></a>".html_safe
 
     counts = nil
+
     case params[:type]
       when 'changes_in_issues'
-        counts = User.current.ui_updated_issues
-                             .select("SUM(case when #{IssueRead.table_name}.read_date <= '#{old}' then 1 else 0 end) as old,
-                                      SUM(case when #{IssueRead.table_name}.read_date > '#{old}' and #{IssueRead.table_name}.read_date <= '#{week}' then 1 else 0 end) as soon,
-                                      SUM(case when #{IssueRead.table_name}.read_date > '#{week}' and #{IssueRead.table_name}.read_date <= '#{month}' then 1 else 0 end) as in_this_month,
-                                      SUM(case when #{IssueRead.table_name}.read_date > '#{month}' then 1 else 0 end) as in_next_month
-                                     ").first
+        counts = { }
+        query.issues.each do |it|
+          unless (it.user_read.nil?)
+            counts[:old] = counts[:old].to_i + 1 if (it.user_read.read_date < old)
+            counts[:soon] = counts[:soon].to_i + 1 if (it.user_read.read_date > old && it.user_read.read_date <= week)
+            counts[:in_this_month] = counts[:in_this_month].to_i + 1 if (it.user_read.read_date > week && it.user_read.read_date <= month)
+            counts[:in_next_month] = counts[:in_next_month].to_i + 1 if (it.user_read.read_date > month)
+          end
+        end
       when 'new_issues'
-        counts = User.current.ui_unread_issues
-                             .select("SUM(case when #{Issue.table_name}.created_on <= '#{old}' then 1 else 0 end) as old,
-                                      SUM(case when #{Issue.table_name}.created_on > '#{old}' and #{Issue.table_name}.created_on <= '#{week}' then 1 else 0 end) as soon,
-                                      SUM(case when #{Issue.table_name}.created_on > '#{week}' and #{Issue.table_name}.created_on <= '#{month}' then 1 else 0 end) as in_this_month,
-                                      SUM(case when #{Issue.table_name}.created_on > '#{month}' then 1 else 0 end) as in_next_month
-                                     ").first
+        counts = { }
+        query.issues.each do |it|
+          counts[:old] = counts[:old].to_i + 1 if (it.created_on < old)
+          counts[:soon] = counts[:soon].to_i + 1 if (it.created_on > old && it.created_on <= week)
+          counts[:in_this_month] = counts[:in_this_month].to_i + 1 if (it.created_on > week && it.created_on <= month)
+          counts[:in_next_month] = counts[:in_next_month].to_i + 1 if (it.created_on > month)
+        end
     end
 
     data[:affects] = today.strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts.attributes['old'].to_i
+    data[:count] = counts.nil? ? 0 : counts[:old].to_i
     result << data.clone( )
 
     data[:affects] = (today + 6.day).strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts.attributes['soon'].to_i
+    data[:count] = counts.nil? ? 0 : counts[:soon].to_i
     result << data.clone( )
 
     data[:affects] = (today.end_of_month).strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts.attributes['in_this_month'].to_i
+    data[:count] = counts.nil? ? 0 : counts[:in_this_month].to_i
     result << data.clone( )
 
     data[:affects] = (today.end_of_month + 1.day).strftime('%Y-%m-%d')
-    data[:count] = counts.nil? ? 0 : counts.attributes['in_next_month'].to_i
+    data[:count] = counts.nil? ? 0 : counts[:in_next_month].to_i
     result << data.clone( )
 
     mmp_render_counters(result, settings, url_for(only_path: true))

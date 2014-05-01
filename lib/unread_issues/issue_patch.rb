@@ -2,36 +2,30 @@ module UnreadIssues
   module IssuePatch
 
     def self.included(base)
-      base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        has_many :issue_reads, :dependent=>:delete_all
-        has_one :user_read, :class_name => 'IssueRead', :foreign_key => 'issue_id', :conditions => lambda{|*args| "#{IssueRead.table_name}.user_id=#{User.current.id}" }
+        has_many :issue_reads, dependent: :delete_all
+        has_one :user_read, class_name: 'IssueRead', foreign_key: 'issue_id', conditions: lambda { |*args| "#{IssueRead.table_name}.user_id = #{User.current.id}" }
         alias_method_chain :css_classes, :unread_issues
       end
-    end
-
-    module ClassMethods
     end
 
     module InstanceMethods
       def css_classes_with_unread_issues
         s = css_classes_without_unread_issues
-        s << ' unread' if unread?
-        s << ' updated' if updated?
+        s << ' unread' if (self.uis_unread)
+        s << ' updated' if (self.uis_updated)
         s
       end
 
-      def unread?
-        not (!user_read.nil? or (assigned_to_id != User.current.id) or closed?)
+      def uis_unread
+        return !self.closed? && self.user_read.nil? && self.assigned_to_id == User.current.id
       end
 
-      def updated?
-        !user_read.nil? and (user_read.read_date < updated_on) and (assigned_to_id == User.current.id) and !closed?
+      def uis_updated
+        return !self.closed? && !self.user_read.nil? && self.user_read.read_date < self.updated_on && self.assigned_to_id == User.current.id
       end
-
     end
-  
   end
 end
