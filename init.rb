@@ -6,6 +6,8 @@ Redmine::Plugin.register :unread_issues do
     url 'http://pitin.su'
     author_url 'http://pitin.su'
 
+  settings partial: 'unread_issues/settings'
+
   delete_menu_item :top_menu, :my_page
   delete_menu_item :top_menu, :home
   menu :top_menu, :my_page, { :controller => 'my', :action => 'page' }, :caption => Proc.new { User.current.my_page_caption },  :if => Proc.new { User.current.logged? }, :first => true
@@ -15,6 +17,7 @@ Rails.application.config.to_prepare do
   Issue.send(:include, UnreadIssues::IssuePatch)
   User.send(:include, UnreadIssues::UserPatch)
   IssuesController.send(:include, UnreadIssues::IssuesControllerPatch)
+  IssueQuery.send(:include, UnreadIssues::IssueQueryPatch)
 end
 
 require 'unread_issues/hooks_views'
