@@ -1,16 +1,27 @@
 class IssueReadsController < ApplicationController
 
   def count
+    unless (Redmine::Plugin.installed?(:ajax_counters))
+      render nothing: true
+    end
+
     num_issues = 0
     case params[:req]
-    when 'assigned'
-      # assigned_issues = User.current.assigned_issues.joins(:status).where("#{IssueStatus.table_name}.is_closed = ?", false).count
-      # num_issues = assigned_issues.size
-      num_issues = User.current.count_opened_assigned_issues
-    when 'unread'
-      num_issues = User.current.count_unread_issues
-    when 'updated'
-      num_issues = User.current.count_updated_issues
+      when 'assigned'
+        query_id = (Setting.plugin_unread_issues || { })[:assigned_issues].to_i
+
+        unless (query_id == 0)
+          begin
+            query = IssueQuery.find(query_id)
+            query.group_by = ''
+            num_issues = query.issues.count
+          rescue ActiveRecord::RecordNotFound
+          end
+        end
+      when 'unread'
+        num_issues = User.current.count_unread_issues
+      when 'updated'
+        num_issues = User.current.count_updated_issues
     end
     # save counter to prevent extra ajax request
 
@@ -18,7 +29,11 @@ class IssueReadsController < ApplicationController
   end
 
   def mm_page_counters
-    if (!Redmine::Plugin.installed?(:magic_my_page) || params[:type].blank?)
+    unless (Redmine::Plugin.installed?(:magic_my_page))
+      render nothing: true
+    end
+
+    if (params[:type].blank?)
       mmp_render_counters(nil, nil, url_for(only_path: true))
       return
     end
