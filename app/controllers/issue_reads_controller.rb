@@ -6,22 +6,24 @@ class IssueReadsController < ApplicationController
     end
 
     num_issues = 0
+    query_id = (Setting.plugin_unread_issues || { })[:assigned_issues].to_i
+    unless (query_id == 0)
+      begin
+        query = IssueQuery.find(query_id)
+        query.group_by = ''
+      rescue ActiveRecord::RecordNotFound
+        ajax_counter_respond(num_issues)
+        return
+      end
+    end
+
     case params[:req]
       when 'assigned'
-        query_id = (Setting.plugin_unread_issues || { })[:assigned_issues].to_i
-
-        unless (query_id == 0)
-          begin
-            query = IssueQuery.find(query_id)
-            query.group_by = ''
-            num_issues = query.issues.count
-          rescue ActiveRecord::RecordNotFound
-          end
-        end
+        num_issues = query.issues.count
       when 'unread'
-        num_issues = User.current.count_unread_issues
+        num_issues = query.issues(include: [:user_read], conditions: "#{IssueRead.table_name}.read_date is null").count
       when 'updated'
-        num_issues = User.current.count_updated_issues
+        num_issues = query.issues(include: [:user_read], conditions: "#{IssueRead.table_name}.read_date < #{Issue.table_name}.updated_on").count
     end
     # save counter to prevent extra ajax request
 
