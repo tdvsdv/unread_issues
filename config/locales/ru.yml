@@ -4,6 +4,7 @@ ru:
   unread_issues_label_filter_unread: 'Не прочитана мной'
   unread_issues_label_filter_updated: 'Не прочитаны изменения мной'
   unread_issues:
+    settings_label_assigned_issues: 'Запрос, определяющий все задачи на пользователе'
     magic_my_page:
       label_changes_in_issues: 'Изменения в задачах'
       label_updated_query_id: 'Запрос, определяющий задачи, измененные с последнего прочтения пользователем'

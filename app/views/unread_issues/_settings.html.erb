@@ -1,5 +1,6 @@
 <%
-  magic_my_page_necessary_actions = (@settings || { })['magic_my_page_necessary_actions'] || { }
+  settings ||= { }
+  magic_my_page_necessary_actions = settings['magic_my_page_necessary_actions'] || { }
   rm_version = Redmine::VERSION.to_a
   queries = nil
   if (rm_version[0] >= 2 && rm_version[1] >= 4)
@@ -10,6 +11,14 @@
 
   queries = [['---', nil]] + queries.order('name').collect { |it| [it.name, it.id] }
 %>
+
+<% if (Redmine::Plugin.installed?(:ajax_counters)) %>
+  <p>
+    <label><%= l('unread_issues.settings_label_assigned_issues') %>:</label>
+    <%= select_tag 'settings[assigned_issues]', options_for_select(queries, settings['assigned_issues']) %>
+  </p>
+<% end %>
+
 <% if (Redmine::Plugin.installed?(:magic_my_page)) %>
   <%= render(layout: 'mm_page/necessary_action_settings', locals: { header: l('unread_issues.magic_my_page.label_changes_in_issues'), param: 'changes_in_issues', data: magic_my_page_necessary_actions[:changes_in_issues] || { }, date_type: 1 }) do %>
     <label><%= l('unread_issues.magic_my_page.label_updated_query_id') %>:</label>
