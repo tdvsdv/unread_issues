@@ -6,7 +6,7 @@ module UnreadIssues
 
       base.class_eval do
         has_many :issue_reads, dependent: :delete_all
-        has_one :user_read, class_name: 'IssueRead', foreign_key: 'issue_id', conditions: lambda { |*args| "#{IssueRead.table_name}.user_id = #{User.current.id}" }
+        has_one :user_read, class_name: 'IssueRead', foreign_key: 'issue_id', conditions: lambda { |*args| "#{IssueRead.table_name}.user_id = #{Issue.table_name}.assigned_to_id" }
         alias_method_chain :css_classes, :unread_issues
       end
     end
