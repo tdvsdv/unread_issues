@@ -21,9 +21,9 @@ class IssueReadsController < ApplicationController
       when 'assigned'
         num_issues = query.issues.count
       when 'unread'
-        num_issues = query.issues(include: [:user_read], conditions: "#{IssueRead.table_name}.read_date is null").count
+        num_issues = query.issues(conditions: "#{IssueRead.table_name}.read_date is null").count
       when 'updated'
-        num_issues = query.issues(include: [:user_read], conditions: "#{IssueRead.table_name}.read_date < #{Issue.table_name}.updated_on").count
+        num_issues = query.issues(conditions: "#{IssueRead.table_name}.read_date < #{Issue.table_name}.updated_on").count
     end
     # save counter to prevent extra ajax request
 
@@ -72,10 +72,10 @@ class IssueReadsController < ApplicationController
         counts = { }
 
         query.issues.each do |it|
-          unless (it.user_read.nil?)
-            counts[it.user_read.read_date.to_date] ||= { }
-            counts[it.user_read.read_date.to_date][it.assigned_to] ||= 0
-            counts[it.user_read.read_date.to_date][it.assigned_to] += 1
+          unless (it.user_read_list.nil?)
+            counts[it.user_read_list.read_date.to_date] ||= { }
+            counts[it.user_read_list.read_date.to_date][it.assigned_to] ||= 0
+            counts[it.user_read_list.read_date.to_date][it.assigned_to] += 1
           end
         end
       when 'new_issues'
