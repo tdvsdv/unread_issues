@@ -19,8 +19,8 @@ module UnreadIssues
     module InstanceMethods
       def issues_with_uis(options={})
         options[:include] ||= [ ]
-        unless (options[:include].include?(:user_read))
-          options[:include] << :user_read
+        unless (options[:include].include?(:user_read_list))
+          options[:include] << :user_read_list
         end
         issues_without_uis(options)
       end
