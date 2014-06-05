@@ -11,26 +11,26 @@ module UnreadIssues
         alias_method_chain :issue_count_by_group, :uis
 
 
-        base.add_available_column(QueryColumn.new(:uis_unread, sortable: Proc.new { "case when #{Issue.table_name}.assigned_to_id = #{User.current.id} and (#{IssueStatus.table_name}.is_closed = #{connection.quoted_false}) and uis_ir.id is null then 1 else 0 end" }, groupable: true, caption: :unread_issues_label_filter_unread))
-        base.add_available_column(QueryColumn.new(:uis_updated, sortable: Proc.new { "case when #{Issue.table_name}.assigned_to_id = #{User.current.id} and (#{IssueStatus.table_name}.is_closed = #{connection.quoted_false}) and uis_ir.read_date < #{Issue.table_name}.updated_on then 1 else 0 end" }, groupable: true, caption: :unread_issues_label_filter_updated))
+        base.add_available_column(QueryColumn.new(:uis_unread, sortable: Proc.new { "case when (#{IssueStatus.table_name}.is_closed = #{connection.quoted_false}) and uis_ir.id is null then 1 else 0 end" }, groupable: true, caption: :unread_issues_label_filter_unread))
+        base.add_available_column(QueryColumn.new(:uis_updated, sortable: Proc.new { "case when (#{IssueStatus.table_name}.is_closed = #{connection.quoted_false}) and uis_ir.read_date < #{Issue.table_name}.updated_on then 1 else 0 end" }, groupable: true, caption: :unread_issues_label_filter_updated))
       end
     end
 
     module InstanceMethods
       def issues_with_uis(options={})
         options[:include] ||= [ ]
-        unless (options[:include].include?(:user_read))
-          options[:include] << :user_read
+        unless (options[:include].include?(:user_read_list))
+          options[:include] << :user_read_list
         end
         issues_without_uis(options)
       end
 
       def issue_count_by_group_with_uis
         if (group_by_statement == 'uis_unread')
-          gr_b = "case when #{Issue.table_name}.assigned_to_id = #{User.current.id} and #{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and uis_ir.id is null then 1 else 0 end"
+          gr_b = "case when #{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and uis_ir.id is null then 1 else 0 end"
           return Issue.visible.joins(:status, :project).where(statement).joins(joins_for_order_statement(gr_b)).group(gr_b).count
         elsif (group_by_statement == 'uis_updated')
-          gr_b = "case when #{Issue.table_name}.assigned_to_id = #{User.current.id} and #{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and uis_ir.read_date < #{Issue.table_name}.updated_on then 1 else 0 end"
+          gr_b = "case when #{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and uis_ir.read_date < #{Issue.table_name}.updated_on then 1 else 0 end"
           return Issue.visible.joins(:status, :project).where(statement).joins(joins_for_order_statement(gr_b)).group(gr_b).count
         end
 
@@ -41,7 +41,7 @@ module UnreadIssues
         return '' if (value == [ ])
         case operator
           when '=', '!'
-            "#{operator == '!' ? 'NOT ' : ''}case when (#{Issue.table_name}.assigned_to_id = #{User.current.id} and #{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and NOT EXISTS(SELECT * FROM #{IssueRead.table_name} uis_ir WHERE uis_ir.issue_id = #{Issue.table_name}.id and uis_ir.user_id = #{User.current.id})) then 1 else 0 end in (#{value.join(',')})"
+            "#{operator == '!' ? 'NOT ' : ''}case when (#{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and NOT EXISTS(SELECT * FROM #{IssueRead.table_name} uis_ir WHERE uis_ir.issue_id = #{Issue.table_name}.id and uis_ir.user_id = #{Issue.table_name}.assigned_to_id)) then 1 else 0 end in (#{value.join(',')})"
         end
       end
 
@@ -49,7 +49,7 @@ module UnreadIssues
         return '' if (value == [ ])
         case operator
           when '=', '!'
-            "#{operator == '!' ? 'NOT ' : ''}case when (#{Issue.table_name}.assigned_to_id = #{User.current.id} and #{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and EXISTS(SELECT * FROM #{IssueRead.table_name} uis_ir WHERE uis_ir.issue_id = #{Issue.table_name}.id and uis_ir.user_id = #{User.current.id} and uis_ir.read_date < #{Issue.table_name}.updated_on))  then 1 else 0 end in (#{value.join(',')})"
+            "#{operator == '!' ? 'NOT ' : ''}case when (#{IssueStatus.table_name}.is_closed = #{connection.quoted_false} and EXISTS(SELECT * FROM #{IssueRead.table_name} uis_ir WHERE uis_ir.issue_id = #{Issue.table_name}.id and uis_ir.user_id = #{Issue.table_name}.assigned_to_id and uis_ir.read_date < #{Issue.table_name}.updated_on))  then 1 else 0 end in (#{value.join(',')})"
         end
       end
 
@@ -67,7 +67,7 @@ module UnreadIssues
         joins = joins_for_order_statement_without_uis(order_options)
         joins ||= ''
 
-        joins << " LEFT JOIN #{IssueRead.table_name} uis_ir ON uis_ir.issue_id = #{Issue.table_name}.id and uis_ir.user_id = #{User.current.id}"
+        joins << " LEFT JOIN #{IssueRead.table_name} uis_ir ON uis_ir.issue_id = #{Issue.table_name}.id and uis_ir.user_id = #{Issue.table_name}.assigned_to_id"
         return joins
       end
     end
