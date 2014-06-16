@@ -29,3 +29,5 @@
     <%= select_tag 'settings[magic_my_page_necessary_actions][new_issues][query_id]', options_for_select(queries, (magic_my_page_necessary_actions[:new_issues] || { })[:query_id]) %>
   <% end %>
 <% end %>
+
+<%= render :file => File.join(File.dirname(__FILE__), "_rmplus_logo.html.erb") %>
