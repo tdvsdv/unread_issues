@@ -20,6 +20,11 @@ module UnreadIssues
         s
       end
 
+      def uis_read_date
+        return nil if (self.user_read_list.nil?)
+        return self.user_read_list.read_date
+      end
+
       def uis_unread
         return !self.closed? && self.user_read.nil? && self.assigned_to_id == User.current.id
       end
