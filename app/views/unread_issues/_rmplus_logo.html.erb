@@ -1,0 +1,20 @@
+<% path_array = File.dirname(__FILE__).split("/") %>
+<% plugin_name = path_array.fetch(path_array.index("plugins") + 1) %>
+
+<div id="rmplus-logo" style="text-align: left; margin-top: 10px;">
+  <div style="border: 1px solid #E4E4E4; padding: 5px;">
+  <%= image_tag 'logo.png', :plugin => plugin_name, alt: l(:label_rmplus_logo), title: l(:label_rmplus_logo), width: 104, height: 39, style: "  vertical-align: bottom;" %>
+  <span style="font-size: 12pt; margin-left: 5px;">
+    <%= l(:label_rmplus_logo) %>&nbsp<a href="http://rmplus.pro">http://rmplus.pro</a>.
+  </span>
+  </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){
+  var logo = $('#rmplus-logo').clone();
+  $('#rmplus-logo').remove();
+  $('div#settings').append(logo);
+});
+//]]>
+</script>
