@@ -1,6 +1,6 @@
 # English strings go here for Rails i18n
 en:
-  my_issues_on_my_page: "My issues"
+  my_issues_on_my_page: "My page"
   unread_issues:
     label_filter_unread: 'Unread'
     label_filter_update: 'Updated'
