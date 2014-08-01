@@ -1,6 +1,6 @@
 # English strings go here for Rails i18n
 ru:
-  my_issues_on_my_page: "Мои задания"
+  my_issues_on_my_page: "Моя страница"
   unread_issues_label_filter_unread: 'Не прочитана'
   unread_issues_label_filter_updated: 'Не прочитаны изменения'
   unread_issues:
