@@ -2,7 +2,7 @@ tr.unread td.subject a
 	{
 	background-image: url(../images/circle_green.png);
 	background-repeat: no-repeat;
-	padding: 0px 0px 0px 17px;
+	padding: 0px 0px 2px 17px;
 	background-position-y: 0px
 	}
 
@@ -10,7 +10,7 @@ tr.updated td.subject a
 	{
 	background-image: url(../images/circle_blue.png);
 	background-repeat: no-repeat;
-	padding: 0px 0px 0px 17px;
+	padding: 0px 0px 2px 17px;
 	background-position-y: 0px
 	}
 #top-menu a span.count.unread
