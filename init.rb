@@ -8,6 +8,8 @@ Redmine::Plugin.register :unread_issues do
 
   settings partial: 'unread_issues/settings'
 
+  permission :view_issue_view_stats, issue_view_stats: [:view_stats]
+
   delete_menu_item :top_menu, :my_page
   delete_menu_item :top_menu, :home
   menu :top_menu, :my_page, { :controller => 'my', :action => 'page' }, :caption => Proc.new { User.current.my_page_caption },  :if => Proc.new { User.current.logged? }, :first => true
