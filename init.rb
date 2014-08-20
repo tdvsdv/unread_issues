@@ -8,7 +8,9 @@ Redmine::Plugin.register :unread_issues do
 
   settings partial: 'unread_issues/settings'
 
-  permission :view_issue_view_stats, issue_view_stats: [:view_stats]
+  project_module :issue_tracking do
+    permission :view_issue_view_stats, issue_view_stats: [:view_stats]
+  end
 
   delete_menu_item :top_menu, :my_page
   delete_menu_item :top_menu, :home
