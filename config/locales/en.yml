@@ -12,7 +12,7 @@ en:
       label_unread_query_id: 'Query that defines new issues on user'
       label_view: 'Look through'
 
-  permission_view_issue_view_stats: "View list of users who viewed issue or request"
+  permission_view_issue_view_stats: "View list of users who viewed issue"
   views_statistics: "Views statistics"
   label_unread_issues_employee: "Employee"
   label_unread_issues_last_viewed_date: "Last viewed on"
