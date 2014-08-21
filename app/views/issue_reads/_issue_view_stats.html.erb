@@ -1,6 +1,6 @@
 <div id="issue-views">
   <% if issue_reads != [] %>
-    <table class="list" id="issue-views-list">
+    <table class="list" id="issue-views-list" style="width: auto;">
       <thead>
         <tr>
           <th><%= l(:label_unread_issues_employee) %></th>
@@ -10,7 +10,7 @@
       <tbody>
       <% issue_reads.each do |issue_read| %>
         <tr>
-          <td><%= issue_read.user %></td>
+          <td><%= link_to_user(issue_read.user) %></td>
           <td><%= format_time(issue_read.read_date) %></td>
         </tr>
       <% end %>
