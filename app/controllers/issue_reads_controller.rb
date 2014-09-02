@@ -30,6 +30,11 @@ class IssueReadsController < ApplicationController
     ajax_counter_respond(num_issues)
   end
 
+  def view_stats
+    @issue = Issue.find(params[:id])
+    @issue_reads = @issue.issue_reads
+  end
+
   def mm_page_counters
     unless (Redmine::Plugin.installed?(:magic_my_page))
       render nothing: true
