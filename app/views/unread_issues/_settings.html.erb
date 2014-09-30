@@ -21,11 +21,17 @@
 
 <% if (Redmine::Plugin.installed?(:magic_my_page)) %>
   <%= render(layout: 'mm_page/necessary_action_settings', locals: { header: l('unread_issues.magic_my_page.label_changes_in_issues'), param: 'changes_in_issues', data: magic_my_page_necessary_actions[:changes_in_issues] || { }, date_type: 1, use_unders: true }) do %>
-    <label><%= l('unread_issues.magic_my_page.label_updated_query_id') %>:</label>
-    <%= select_tag 'settings[magic_my_page_necessary_actions][changes_in_issues][query_id]', options_for_select(queries, (magic_my_page_necessary_actions[:changes_in_issues] || { })[:query_id]) %>
+    <p>
+      <label><%= l('unread_issues.magic_my_page.label_updated_query_id') %>:</label>
+      <%= select_tag 'settings[magic_my_page_necessary_actions][changes_in_issues][query_id]', options_for_select(queries, (magic_my_page_necessary_actions[:changes_in_issues] || { })[:query_id]) %>
+    </p>
   <% end %>
   <%= render(layout: 'mm_page/necessary_action_settings', locals: { header: l('unread_issues.magic_my_page.label_new_issues'), param: 'new_issues', data: magic_my_page_necessary_actions[:new_issues] || { }, date_type: 1, use_unders: true }) do %>
-    <label><%= l('unread_issues.magic_my_page.label_unread_query_id') %>:</label>
-    <%= select_tag 'settings[magic_my_page_necessary_actions][new_issues][query_id]', options_for_select(queries, (magic_my_page_necessary_actions[:new_issues] || { })[:query_id]) %>
+    <p>
+      <label><%= l('unread_issues.magic_my_page.label_unread_query_id') %>:</label>
+      <%= select_tag 'settings[magic_my_page_necessary_actions][new_issues][query_id]', options_for_select(queries, (magic_my_page_necessary_actions[:new_issues] || { })[:query_id]) %>
+    </p>
   <% end %>
 <% end %>
+
+<%= render :file => File.join(File.dirname(__FILE__), "_rmplus_logo.html.erb") %>

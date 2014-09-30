@@ -1,6 +1,6 @@
 # English strings go here for Rails i18n
 ru:
-  my_issues_on_my_page: "Мои задания"
+  my_issues_on_my_page: "Моя страница"
   unread_issues_label_filter_unread: 'Не прочитана'
   unread_issues_label_filter_updated: 'Не прочитаны изменения'
   unread_issues:
@@ -11,3 +11,8 @@ ru:
       label_new_issues: 'Новые задачи'
       label_unread_query_id: 'Запрос, определяющий новые задачи на пользователе'
       label_view: 'Просмотреть'
+
+  permission_view_issue_view_stats: "Просмотр информации о том, кто заходил в задачу"
+  views_statistics: "Просмотры"
+  label_unread_issues_employee: "Сотрудник"
+  label_unread_issues_last_viewed_date: "Время последнего просмотра"

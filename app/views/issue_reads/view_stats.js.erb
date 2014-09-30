@@ -1,0 +1,3 @@
+<% if @issue_reads %>
+  $('#tab-content-view_stats').html('<%= escape_javascript(render(partial: 'issue_reads/issue_view_stats', locals: { issue_reads: @issue_reads })) %>');
+<% end %>
