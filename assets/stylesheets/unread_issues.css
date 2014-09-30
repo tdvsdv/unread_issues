@@ -1,40 +1,35 @@
-tr.unread td.subject a
-	{
+tr.unread td.subject a {
 	background-image: url(../images/circle_green.png);
 	background-repeat: no-repeat;
 	padding: 0px 0px 0px 17px;
 	background-position-y: 0px
-	}
+}
 
-tr.updated td.subject a
-	{
+tr.updated td.subject a {
 	background-image: url(../images/circle_blue.png);
 	background-repeat: no-repeat;
 	padding: 0px 0px 0px 17px;
 	background-position-y: 0px
-	}
-#top-menu a span.count.unread
-	{
-	background-color: #c3e26b
-	}
-#top-menu  a span.count.updated
-	{
-	background-color: #76a8d7
-	}
-#top-menu span
-	{float: left;}
-		
+}
 
 #top-menu a span.count, span.count {
-background-color: #077C10;
-padding: 0px 4px 0px 4px;
-position: relative;
-top: -2px;
-border-radius: 8px 8px;
-left: 5px;
-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-font-size: 7.5pt;
-font-weight: bold;
-margin-right: 5px;
-color: #FFF;
-	}
+	background-color: #077C10;
+	padding: 0px 4px 0px 4px;
+	position: relative;
+	top: -2px;
+	border-radius: 8px 8px;
+	left: 5px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	font-size: 7.5pt;
+	font-weight: bold;
+	margin-right: 5px;
+	color: #FFF;
+}
+
+#top-menu a span.count.unread {
+	background-color: #c3e26b
+}
+
+#top-menu  a span.count.updated {
+	background-color: #76a8d7
+}
