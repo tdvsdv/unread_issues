@@ -1,4 +1,3 @@
-[webadm@redmine01 plugins]$ vi unread_issues/lib/unread_issues/issues_controller_patch.rb
 module UnreadIssues
   module IssuesControllerPatch
     def self.included(base)
