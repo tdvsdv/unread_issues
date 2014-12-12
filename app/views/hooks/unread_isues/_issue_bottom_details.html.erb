@@ -1,0 +1,10 @@
+<% if (Redmine::Plugin.installed?(:redmine_issue_tabs)) %>
+  <% if User.current.global_permission_to?(:view_issue_view_stats) %>
+    <script type="text/javascript">
+      RMPlus.TABS.http_tab = '<%= params[:tab] %>';
+      $(document).ready(function () {
+        RMPlus.TABS.add_new_tab('view_stats', '<%= url_for({ controller: :issue_reads, action: :view_stats, id: @issue.id, only_path: true }) %>', '<%= l(:views_statistics) %>');
+      });
+    </script>
+  <% end %>
+<% end %>
