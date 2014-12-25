@@ -26,11 +26,11 @@ module UnreadIssues
       end
 
       def uis_unread
-        return !self.closed? && self.user_read.nil? && self.assigned_to_id == User.current.id
+        return !self.closed? && self.user_read.nil?
       end
 
       def uis_updated
-        return !self.closed? && self.user_read && self.user_read.read_date && self.updated_on && self.user_read.read_date < self.updated_on && self.assigned_to_id == User.current.id
+        return !self.closed? && self.user_read && self.user_read.read_date && self.updated_on && self.user_read.read_date < self.updated_on
       end
     end
   end
